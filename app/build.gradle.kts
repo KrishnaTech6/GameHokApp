@@ -81,4 +81,7 @@ dependencies {
     val nav_version = "2.8.5"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
+
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 }

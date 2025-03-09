@@ -40,9 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import rana.krishna.gamehokapp.R
-import rana.krishna.gamehokapp.ui.screens.PremiumShape
 import rana.krishna.gamehokapp.ui.theme.Green50
 import rana.krishna.gamehokapp.ui.theme.Orange
+import rana.krishna.gamehokapp.utils.PremiumShape
 import kotlin.math.absoluteValue
 
 @Preview
@@ -107,7 +107,7 @@ fun Banner(
                         )
                         Box(
                             modifier = Modifier
-                                .clip(PremiumShape()) // Custom shape
+                                .clip(PremiumShape())
                                 .background(
                                     brush = Brush.horizontalGradient(
                                         colors = listOf(

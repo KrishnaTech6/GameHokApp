@@ -2,36 +2,22 @@ package rana.krishna.gamehokapp.ui.screens
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerDefaults
-import androidx.compose.foundation.pager.PagerSnapDistance
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -39,28 +25,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil3.compose.ImagePainter
+import androidx.navigation.NavController
+import coil3.Image
 import rana.krishna.gamehokapp.viewmodel.GameViewModel
-import kotlin.math.absoluteValue
 import rana.krishna.gamehokapp.R
+import rana.krishna.gamehokapp.model.GameItem
 import rana.krishna.gamehokapp.ui.components.Banner
 import rana.krishna.gamehokapp.ui.components.FollowItem
 import rana.krishna.gamehokapp.ui.components.HeaderAction
@@ -68,6 +43,7 @@ import rana.krishna.gamehokapp.ui.components.TournamentCard
 
 @Composable
 fun HomeScreen(
+    navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: GameViewModel = hiltViewModel<GameViewModel>()
 ) {
@@ -80,7 +56,7 @@ fun HomeScreen(
         Spacer(Modifier.height(16.dp))
         HeaderAction("Play Tournament by Games", "View All")
         Spacer(Modifier.height(16.dp))
-        Tournamets()
+        Tournamets(games, { navController.navigate("tournament_details") })
         Spacer(Modifier.height(16.dp))
         HeaderAction("Compete in Battles", "View All")
         Spacer(Modifier.height(16.dp))
@@ -115,8 +91,9 @@ fun Compete() {
 }
 
 @Composable
-fun ImageText(@DrawableRes id: Int, game: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally){
+fun ImageText(@DrawableRes id: Int, game: String, clicked:()-> Unit) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable(onClick =
+        {clicked()})){
         Image(
             painter = painterResource(id),
             contentDescription = null,
@@ -132,30 +109,12 @@ fun ImageText(@DrawableRes id: Int, game: String) {
 }
 
 @Composable
-@Preview
-fun Tournamets() {
+fun Tournamets(games: List<GameItem>, clicked: ()-> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly){
-        ImageText(R.drawable.img_1, "Hello")
-        ImageText(R.drawable.img_2 , "Hello")
-        ImageText(R.drawable.img_2 , "Hello")
-    }
-}
-
-class PremiumShape : Shape {
-    override fun createOutline(
-        size: Size,
-        layoutDirection: LayoutDirection,
-        density: Density
-    ): Outline {
-        val path = Path().apply {
-            moveTo(size.width * 0.15f, 0f) // Start from top-left with an offset
-            lineTo(size.width, 0f)  // Top-right
-            lineTo(size.width * 0.85f, size.height) // Bottom-right with offset
-            lineTo(0f, size.height) // Bottom-left
-            close()
+        games.forEach{game ->
+            ImageText(R.drawable.img_1, game.gameName, clicked)
         }
-        return Outline.Generic(path)
     }
 }
 

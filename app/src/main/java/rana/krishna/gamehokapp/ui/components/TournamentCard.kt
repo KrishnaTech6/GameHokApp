@@ -2,6 +2,7 @@ package rana.krishna.gamehokapp.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -35,21 +37,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import rana.krishna.gamehokapp.R
 import rana.krishna.gamehokapp.ui.theme.Green50
-import rana.krishna.gamehokapp.ui.theme.Green60
 import rana.krishna.gamehokapp.ui.theme.Green70
 import rana.krishna.gamehokapp.ui.theme.Green80
 
 
 @Composable
 @Preview
-fun TournamentCard() {
+fun TournamentCard(isBlack: Boolean = false, isGreen: Boolean = false) {
+    val border = if(isBlack) Modifier.border(2.dp, Green70, shape = RoundedCornerShape(12.dp)) else Modifier
     Box(modifier = Modifier.fillMaxWidth()
+        .then(border)
         .background(
         brush = Brush.verticalGradient(
-            colors = listOf(Green50, Green80)
+            colors = if(isBlack) listOf(Color.Black, Color.Black) else  listOf(Green50, Green80)
         ),
         shape = RoundedCornerShape(12.dp)
-    )) {
+    )
+    ) {
         Card(
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
@@ -102,7 +106,7 @@ fun TournamentCard() {
                     }
                 }
 
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(16.dp).fillMaxWidth()) {
                     Text(
                         text = "PUBG tournament",
                         fontSize = 20.sp,
@@ -115,9 +119,9 @@ fun TournamentCard() {
 
                     // Tags Row
                     Row {
-                        TagItem("BGMI")
-                        TagItem("Solo")
-                        TagItem("Entry - 10", true)
+                        TagItem("BGMI", isGreen= isGreen)
+                        TagItem("Solo", isGreen= isGreen)
+                        TagItem("Entry - 10", true, isGreen= isGreen)
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -141,7 +145,7 @@ fun TournamentCard() {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     // Prize Pool
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                         Icon(
                             painterResource(R.drawable.img_3),
                             contentDescription = null,
@@ -162,6 +166,7 @@ fun TournamentCard() {
                                 .size(20.dp)
                                 .padding(horizontal = 2.dp)
                         )
+                        if (isBlack) Icon(Icons.Default.KeyboardArrowRight, null, tint = Green50)
                     }
                 }
             }
@@ -170,11 +175,11 @@ fun TournamentCard() {
 }
 
 @Composable
-fun TagItem(text: String, isCoin: Boolean= false) {
+fun TagItem(text: String, isCoin: Boolean= false, isGreen: Boolean = false) {
     Box(
         modifier = Modifier
             .padding(end = 8.dp)
-            .background(Color.Black, RoundedCornerShape(8.dp))
+            .background(if(isGreen) Green70 else Color.Black, RoundedCornerShape(8.dp))
             .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
