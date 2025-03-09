@@ -2,6 +2,11 @@
 
 Android application developed as an assignment for Gamehok, utilizing **Jetpack Compose (Kotlin)**.
 
+- Project structure
+
+- <img width="338" alt="Screenshot 2025-03-09 at 3 48 12 PM" src="https://github.com/user-attachments/assets/8ee0632c-ed5a-4dda-8396-447810f86804" />
+
+
 ## Objective
 
 The application aims to:
